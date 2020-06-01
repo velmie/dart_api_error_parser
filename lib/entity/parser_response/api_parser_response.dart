@@ -1,15 +1,15 @@
 import 'package:api_error_parser/api_error_parser.dart';
 
 abstract class ApiParserResponse<T, E> {
-  ApiParserResponse<T, String> error<T>(Exception error) {
+  static ApiParserResponse<T, String> error<T>(Exception error) {
     return ApiParserErrorResponse([ParserMessageEntity("unknown target", null, "unknown code", message: error.toString())]);
   }
 
-  ApiParserResponse<T, E> errors<T, E>(List<ParserMessageEntity<E>> errors) {
+  static ApiParserResponse<T, E> errors<T, E>(List<ParserMessageEntity<E>> errors) {
     return ApiParserErrorResponse(errors);
   }
 
-  ApiParserResponse<T, E> success<T, E>(ParserResponseEntity<T, E> response) {
+  static ApiParserResponse<T, E> create<T, E>(ParserResponseEntity<T, E> response) {
     if (response.errors.isNotEmpty) {
       return ApiParserErrorResponse(response.errors);
     } else if (response.data != null) {
