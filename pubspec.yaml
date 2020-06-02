@@ -1,8 +1,7 @@
 name: api_error_parser
 description: Parsing responses from api and  handling errors in the Dart/Flutter
 version: 0.0.1
-author:
-homepage:
+homepage: https://www.velmie.com/
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
