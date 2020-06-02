@@ -17,20 +17,19 @@
     {
       "code": "invalid_punctuation",
       "target": "field",
-      "source": {
-
-      },
       "message": "Hi Vova, it seems that the password provided is missing a punctuation character"
     },
     {
       "code": "unknown_code",
       "target": "common",
-      "source": {},
       "message": "Oh no! Something went wrong"
     },
     {
       "code": "invalid_password_confirmation",
       "target": "field",
+      "source": {
+
+      },
       "message": "Hi Lesha, it seems that the password and password confirmation fields do not match"
     }
   ]

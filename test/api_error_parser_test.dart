@@ -23,9 +23,98 @@ Future<ApiResponseEntity<DataEntity>> beforeTest() async {
 }
 
 void main() {
-
-  test('preparing test', () async {
+  setUp(() async {
     response = await beforeTest();
-    var l = response;
+  });
+  test("message from code", () {
+    expect(parser.getMessageFromCode(ErrorCode.INVALID_PUNCTUATION), equals(Message.PUNCTUATION_ERROR));
+    expect(parser.getMessageFromCode(ErrorCode.UNKNOWN), equals(Message.DEFAULT));
+  });
+
+  test("fits error message", () {
+    expect(parser.getFirstMessage(response.errors), equals(Message.EMPTY_BALANCE));
+    final errors = response.errors;
+    errors.insert(0, response.errors[2]);
+    expect(parser.getFirstMessage(response.errors), equals(Message.DEFAULT));
+  });
+
+  test("error message", () {
+    expect(parser.getMessage(response.errors.last), equals(Message.PASSWORD_DO_NOT_MATCH));
+    expect(parser.getMessage(response.errors[2]), equals(Message.DEFAULT));
+  });
+
+  test("list errors", () {
+    final errors = response.errors;
+    final parserErrors = parser.getErrors(response.errors);
+    expect(errors[0].code, parserErrors[0].code);
+    expect(errors[1].code, parserErrors[1].code);
+    expect(errors[2].code, parserErrors[2].code);
+    expect(errors[3].code, parserErrors[3].code);
+
+    expect(parserErrors[0].message, Message.EMPTY_BALANCE);
+    expect(parserErrors[1].message, Message.PUNCTUATION_ERROR);
+    expect(parserErrors[2].message, Message.DEFAULT);
+    expect(parserErrors[3].message, Message.PASSWORD_DO_NOT_MATCH);
+
+    expect(parserErrors[0].source != null, true);
+    expect(parserErrors[1].source == null, true);
+    expect(parserErrors[2].source == null, true);
+    expect(parserErrors[3].source != null, true);
+  });
+
+  test("parsing", () async {
+    response = await beforeTest();
+    final parserResponse = parser.getParserResponse(response);
+    expect(response.data, parserResponse.data);
+
+    final errors = response.errors;
+    final parserErrors = parserResponse.errors;
+
+    expect(errors[0].code, parserErrors[0].code);
+    expect(errors[1].code, parserErrors[1].code);
+    expect(errors[2].code, parserErrors[2].code);
+    expect(errors[3].code, parserErrors[3].code);
+
+    expect(parserErrors[0].message, Message.EMPTY_BALANCE);
+    expect(parserErrors[1].message, Message.PUNCTUATION_ERROR);
+    expect(parserErrors[2].message, Message.DEFAULT);
+    expect(parserErrors[3].message, Message.PASSWORD_DO_NOT_MATCH);
+
+    expect(parserErrors[0].source != null, true);
+    expect(parserErrors[1].source == null, true);
+    expect(parserErrors[2].source == null, true);
+    expect(parserErrors[3].source != null, true);
+  });
+
+  test("api parser response", () async {
+    response = await beforeTest();
+    final errorResponse = parser.parse(response);
+    expect(errorResponse is ApiParserErrorResponse, true);
+
+    final errors = response.errors;
+    final parserErrors = (errorResponse as ApiParserErrorResponse).errors;
+
+    expect(errors[0].code, parserErrors[0].code);
+    expect(errors[1].code, parserErrors[1].code);
+    expect(errors[2].code, parserErrors[2].code);
+    expect(errors[3].code, parserErrors[3].code);
+
+    expect(parserErrors[0].message, Message.EMPTY_BALANCE);
+    expect(parserErrors[1].message, Message.PUNCTUATION_ERROR);
+    expect(parserErrors[2].message, Message.DEFAULT);
+    expect(parserErrors[3].message, Message.PASSWORD_DO_NOT_MATCH);
+
+    expect(parserErrors[0].source != null, true);
+    expect(parserErrors[1].source == null, true);
+    expect(parserErrors[2].source == null, true);
+    expect(parserErrors[3].source != null, true);
+
+    final emptyResponse = ApiResponseEntity(null, []);
+    expect(parser.parse(emptyResponse) is ApiParserEmptyResponse, true);
+
+    final successResponse = ApiResponseEntity<DataEntity>(response.data, []);
+    expect(parser.parse(successResponse) is ApiParserSuccessResponse, true);
+    expect(successResponse.data != null, true);
+    expect(successResponse.data, response.data);
   });
 }

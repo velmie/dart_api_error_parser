@@ -13,7 +13,7 @@ abstract class ApiParserResponse<T, E> {
     if (response.errors.isNotEmpty) {
       return ApiParserErrorResponse(response.errors);
     } else if (response.data != null) {
-      return ApiParserSuccessResponse(response as T);
+      return ApiParserSuccessResponse(response.data);
     }
     return ApiParserEmptyResponse();
   }
@@ -28,7 +28,7 @@ class ApiParserSuccessResponse<T, E> extends ApiParserResponse<T, E> {
 }
 
 class ApiParserErrorResponse<T, E> extends ApiParserResponse<T, E> {
-  final List<ParserMessageEntity<E>> listOfError;
+  final List<ParserMessageEntity<E>> errors;
 
-  ApiParserErrorResponse(this.listOfError);
+  ApiParserErrorResponse(this.errors);
 }
