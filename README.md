@@ -1,6 +1,6 @@
 # API Parser
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/license-BSD-purple.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 A library for parsing responses from api and converting error codes into messages for the user.
 
@@ -112,4 +112,4 @@ switch (apiParserResponse.runtimeType) {
 ```
 
 # License
-ApiParser is released under the MIT license. See [LICENSE](https://github.com/velmie/dart_api_error_parser/blob/readme/LICENSE) for details.
+ApiParser is released under the MIT license. See [LICENSE](/LICENSE) for details.
