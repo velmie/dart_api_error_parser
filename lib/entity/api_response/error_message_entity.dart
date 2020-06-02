@@ -5,7 +5,7 @@ abstract class ErrorMessage {
 
   String get target;
 
-  ErrorSourceEntity get source;
+  ErrorSource get source;
 
   String get message;
 }
@@ -21,4 +21,12 @@ class ErrorMessageEntity extends ErrorMessage {
   final String message;
 
   ErrorMessageEntity(this.code, this.target, this.message, {this.source});
+
+  factory ErrorMessageEntity.fromJson(Map<String, dynamic> data) {
+    var source = data['source'];
+    if (source != null) {
+      source = ErrorSourceEntity.fromJson(source);
+    }
+    return ErrorMessageEntity(data['code'], data['target'], data['message'], source: source);
+  }
 }
