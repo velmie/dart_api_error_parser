@@ -1,6 +1,6 @@
 name: api_error_parser
 description: Parsing responses from api and  handling errors in the Dart/Flutter
-version: 0.0.2
+version: 0.0.3
 homepage: https://www.velmie.com/
 
 environment:
