@@ -14,13 +14,20 @@ class ApiResponseEntity<T> extends ApiResponse<T> {
 
   ApiResponseEntity(this.data, this.errors);
 
-  factory ApiResponseEntity.fromJson(Map<String, dynamic> json, Function fromJson) {
+  factory ApiResponseEntity.fromJson(
+      Map<String, dynamic> json, Function fromJson) {
     final dataJson = json['data'];
     final errorsJson = json['errors'];
     List<ErrorMessageEntity> list;
     if (errorsJson != null) {
-      list = (json['errors'] as List).map((i) => ErrorMessageEntity.fromJson(i)).toList();
+      list = (json['errors'] as List)
+          .map((i) => ErrorMessageEntity.fromJson(i))
+          .toList();
     }
-    return ApiResponseEntity<T>(fromJson(dataJson), list);
+    T data;
+    if (dataJson != null && fromJson != null) {
+      data = fromJson(dataJson);
+    }
+    return ApiResponseEntity<T>(data, list);
   }
 }
