@@ -27,6 +27,7 @@ class ErrorMessageEntity extends ErrorMessage {
     if (source != null) {
       source = ErrorSourceEntity.fromJson(source);
     }
-    return ErrorMessageEntity(data['code'], data['target'], data['message'], source: source);
+    return ErrorMessageEntity(data['code'], data['target'], data['message'],
+        source: source);
   }
 }
