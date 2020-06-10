@@ -1,3 +1,3 @@
-## [0.0.3] - TODO: Add release date.
+## [0.0.4] - TODO: Add release date.
 
-fixed crash when data or data parsing function are null
+added pagination logic

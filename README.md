@@ -62,8 +62,35 @@ Example:
   ]
  }
 ```
+####Pagination
+In server response should be pagination object in the next format:
+
+- ***currentPage***: current returned page
+- ***totalPage***: total pages amount
+- ***totlaRecord***: total record amount
+- ***limit***: number of items per page
+
+Example:
+```json
+{
+  "data": [
+    {
+      "id": 1
+    },
+    {
+      "id": 2
+    }
+  ],
+  "pagination": {
+    "currentPage": 3,
+    "totalPage": 10,
+    "totalRecord": 92,
+    "limit": 10
+  }
+}
+```
 # Version
-0.0.1
+0.04
 
 # How it works
 The library provides ready-made interfaces for server responses to which the object passed to the parmer must correspond.
@@ -90,7 +117,7 @@ final apiParser = ApiParser({
                   CODE.ERROR_CODE: Message.ERROR_MESSAGE,
                 }, Message.DEFAULT);
                
-final ParserResponseEntity<UserEntity> parserResponse = apiParser.getParserResponse(serverResponse);
+final ParserResponse<UserEntity> parserResponse = apiParser.getParserResponse(serverResponse);
                              
 final ApiParserResponse<UserEntity> apiParserResponse = apiParser.parse(serverResponse); 
 
