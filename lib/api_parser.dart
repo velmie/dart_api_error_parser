@@ -13,19 +13,18 @@ class ApiParser<E> {
   }
 
   List<ParserMessageEntity<E>> getErrors(List<ErrorMessage> errors) {
-    return errors
-        .map((error) => ParserMessageEntity(
-            error.target, error.source, error.code,
-            message: getMessageFromCode(error.code)))
-        .toList();
+    return errors.map((error) => ParserMessageEntity(error.target, error.source, error.code, message: getMessageFromCode(error.code))).toList();
   }
 
-  ParserResponseEntity<T, E> getParserResponse<T>(ApiResponse<T> response) {
+  ParserResponse<T, E> getParserResponse<T>(ApiResponse<T> response) {
     if (response == null) {
       return ParserResponseEntity(null, []);
     } else {
-      return ParserResponseEntity(
-          response.data, getErrors(response.errors ?? []));
+      if (response is ApiResponsePagination) {
+        return ParserResponseWithPaginationEntity(response.data, (response as ApiResponsePagination).pagination, getErrors(response.errors ?? []));
+      } else {
+        return ParserResponseEntity(response.data, getErrors(response.errors ?? []));
+      }
     }
   }
 
