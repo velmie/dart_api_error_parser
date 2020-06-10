@@ -4,6 +4,15 @@ abstract class ApiResponse<T> {
   T get data;
 
   List<ErrorMessage> get errors;
+
+  static List<ErrorMessageEntity> errorsFromJson(Map<String, dynamic> json) {
+    final errorsJson = json['errors'];
+    List<ErrorMessageEntity> list;
+    if (errorsJson != null) {
+      list = (json['errors'] as List).map((i) => ErrorMessageEntity.fromJson(i)).toList();
+    }
+    return list;
+  }
 }
 
 class ApiResponseEntity<T> extends ApiResponse<T> {
@@ -14,20 +23,6 @@ class ApiResponseEntity<T> extends ApiResponse<T> {
 
   ApiResponseEntity(this.data, this.errors);
 
-  factory ApiResponseEntity.fromJson(
-      Map<String, dynamic> json, Function fromJson) {
-    final dataJson = json['data'];
-    final errorsJson = json['errors'];
-    List<ErrorMessageEntity> list;
-    if (errorsJson != null) {
-      list = (json['errors'] as List)
-          .map((i) => ErrorMessageEntity.fromJson(i))
-          .toList();
-    }
-    T data;
-    if (dataJson != null && fromJson != null) {
-      data = fromJson(dataJson);
-    }
-    return ApiResponseEntity<T>(data, list);
-  }
+  factory ApiResponseEntity.fromJson(Map<String, dynamic> json, Function fromJson) =>
+      ApiResponseEntity((json['data'] != null && fromJson != null) ? fromJson(json['data']) : null, ApiResponse.errorsFromJson(json));
 }
