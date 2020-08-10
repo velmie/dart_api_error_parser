@@ -3,17 +3,39 @@ library api_error_parser;
 import 'package:api_error_parser/api_error_parser.dart';
 
 class ApiParser<E> {
-  ApiParser(this.errorMessages, this.defaultErrorMessage);
+  ApiParser({
+    this.errorMessages,
+    this.defaultErrorMessage,
+    this.fieldErrorMessages = const {},
+  });
 
   final Map<String, E> errorMessages;
   final E defaultErrorMessage;
+  final Map<String, Map<String, E>> fieldErrorMessages;
 
   ApiParserResponse<T, E> parse<T>(ApiResponse<T> response) {
     return ApiParserResponse.create(getParserResponse(response));
   }
 
   List<ParserMessageEntity<E>> getErrors(List<ErrorMessage> errors) {
-    return errors.map((error) => ParserMessageEntity(error.target, error.source, error.code, message: getMessageFromCode(error.code))).toList();
+    return errors
+        .map((error) => ParserMessageEntity(
+            error.target, error.source, error.code,
+            message: getMessage(error)))
+        .toList();
+  }
+
+  E getMessage(ErrorMessage error) {
+    if (error.target == "field") {
+      final field = error.source.field;
+      if (fieldErrorMessages.keys.contains(field)) {
+        return getFieldMessageFromCode(field, error.code);
+      } else {
+        return getMessageFromCode(error.code);
+      }
+    } else {
+      return getMessageFromCode(error.code);
+    }
   }
 
   ParserResponse<T, E> getParserResponse<T>(ApiResponse<T> response) {
@@ -21,9 +43,13 @@ class ApiParser<E> {
       return ParserResponseEntity(null, []);
     } else {
       if (response is ApiResponsePagination) {
-        return ParserResponseWithPaginationEntity(response.data, (response as ApiResponsePagination).pagination, getErrors(response.errors ?? []));
+        return ParserResponseWithPaginationEntity(
+            response.data,
+            (response as ApiResponsePagination).pagination,
+            getErrors(response.errors ?? []));
       } else {
-        return ParserResponseEntity(response.data, getErrors(response.errors ?? []));
+        return ParserResponseEntity(
+            response.data, getErrors(response.errors ?? []));
       }
     }
   }
@@ -32,8 +58,12 @@ class ApiParser<E> {
     return errorMessages[errorCode] ?? defaultErrorMessage;
   }
 
-  E getMessage(ErrorMessage errorMessage) {
-    return errorMessages[errorMessage.code] ?? defaultErrorMessage;
+  E getFieldMessageFromCode(String field, String errorCode) {
+    if (fieldErrorMessages[field].keys.contains(errorCode)) {
+      return fieldErrorMessages[field][errorCode];
+    } else {
+      return getMessageFromCode(errorCode);
+    }
   }
 
   E getFirstMessage(List<ErrorMessage> errors) {
