@@ -9,28 +9,47 @@
     {
       "code": "insufficient_funds",
       "target": "common",
-      "source": {
-
-      },
       "message": "Hi Nick, it seems that user has empty balance"
     },
     {
       "code": "invalid_punctuation",
       "target": "field",
+      "source": {
+        "field": "userPassword"
+      },
       "message": "Hi Vova, it seems that the password provided is missing a punctuation character"
     },
     {
       "code": "unknown_code",
       "target": "common",
-      "message": "Oh no! Something went wrong"
+      "message": "Oh no! Something went wrong",
+      "source": {
+        "field": "userPassword"
+      }
     },
     {
       "code": "invalid_password_confirmation",
       "target": "field",
       "source": {
-
+        "field": "email"
       },
       "message": "Hi Lesha, it seems that the password and password confirmation fields do not match"
+    },
+    {
+      "code": "invalid_password",
+      "target": "field",
+      "source": {
+        "field": "userPassword"
+      },
+      "message": "Hi Lesha, it seems that the password is wrong"
+    },
+    {
+      "code": "invalid_login",
+      "target": "field",
+      "source": {
+        "field": "login"
+      },
+      "message": "Hi Lesha, it seems that the login is wrong"
     }
   ]
 }

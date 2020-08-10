@@ -102,12 +102,13 @@ To initialize the ErrorParser, you must pass to the constructor:
 
 
 **Api parser description:**
-- `parse(response: ApiParserResponse<T>)` - returns `ApiParserResponse` in the states: success , empty or error
-- `getParserResponse(response: ApiResponse<T>)` - parses the server response object and returns the processed result
-- `getErrors(errors: List<ErrorMessage>)` - returns a list of processed errors
-- `getMessageFromCode(errorCode: String)` - returns the message associated with this error code
-- `getMessage(errorMessage: ErrorMessage)` - returns the processed error
-- `getFirstMessage(errors: List<ErrorMessage>)` - returns the first processed error from the list
+- `parse(ApiParserResponse<T> response)` - returns `ApiParserResponse` in the states: success , empty or error
+- `getParserResponse(ApiResponse<T> response)` - parses the server response object and returns the processed result
+- `getErrors(List<ErrorMessage> errors)` - returns a list of processed errors
+- `getMessageFromCode(String errorCode)` - returns the message associated with this error code
+- `getMessage(ErrorMessage errorMessage)` - returns the processed error
+- `getFirstMessage(List<ErrorMessage> errors)` - returns the first processed error from the list
+- `getFieldMessageFromCode(String field, String errorCode)` - returns the first processed error from the list
 
 Dart
 -------------
