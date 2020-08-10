@@ -1,3 +1,3 @@
-## [0.0.4] - TODO: Add release date.
+## [0.0.5] - TODO: Add release date.
 
-added pagination logic
+added ability to register codes for field types
