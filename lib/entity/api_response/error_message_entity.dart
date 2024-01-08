@@ -5,9 +5,11 @@ abstract class ErrorMessage {
 
   String get target;
 
-  ErrorSource get source;
+  ErrorSource? get source;
 
-  String get message;
+  String? get title;
+
+  Map<String, dynamic>? get meta;
 }
 
 class ErrorMessageEntity extends ErrorMessage {
@@ -16,18 +18,37 @@ class ErrorMessageEntity extends ErrorMessage {
   @override
   final String target;
   @override
-  final ErrorSourceEntity source;
+  final ErrorSourceEntity? source;
   @override
-  final String message;
+  final String? title;
+  @override
+  final Map<String, dynamic>? meta;
 
-  ErrorMessageEntity(this.code, this.target, this.message, {this.source});
+  ErrorMessageEntity(
+      this.code,
+      this.target,
+      this.title, {
+        this.source,
+        this.meta,
+      });
 
   factory ErrorMessageEntity.fromJson(Map<String, dynamic> data) {
-    var source = data['source'];
+    dynamic source = data['source'];
+    final meta = data['meta'] as Map<String, dynamic>?;
     if (source != null) {
-      source = ErrorSourceEntity.fromJson(source);
+      if (source is String) {
+        source = ErrorSourceEntity(source);
+      } else {
+        source = ErrorSourceEntity.fromJson(source as Map<String, dynamic>);
+      }
     }
-    return ErrorMessageEntity(data['code'], data['target'], data['message'],
-        source: source);
+
+    return ErrorMessageEntity(
+      data['code'] as String,
+      (data['target'] ?? '??') as String,
+      data['title'] as String?,
+      source: source as ErrorSourceEntity?,
+      meta: meta,
+    );
   }
 }
