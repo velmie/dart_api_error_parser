@@ -9,6 +9,7 @@ class Message {
       "It seems that the password is wrong";
   static const String INVALID_LOGIN =
       "It seems that the login is wrong";
+  static const String DEFAULT_403_MESSAGE = "Default 403 Message";
 }
 
 class ErrorCode {

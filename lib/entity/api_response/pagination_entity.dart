@@ -20,11 +20,16 @@ class PaginationEntity extends Pagination {
 
   PaginationEntity(this.currentPage, this.totalPage, this.totalRecord, this.limit);
 
-  factory PaginationEntity.fromJson(Map<String, dynamic> data) =>
-      PaginationEntity(data['currentPage'], data['totalPage'], data['totalRecord'], data['limit']);
+  factory PaginationEntity.fromJson(Map<String, dynamic> data) => PaginationEntity(
+    data['currentPage'] as int,
+    data['totalPage'] as int,
+    data['totalRecord'] as int,
+    data['limit'] as int,
+  );
 
   @override
   String toString() {
-    return "{${super.toString()} currentPage = $currentPage, totalPage = $totalPage, totalRecord = $totalRecord, limit = $limit}";
+    return '{${super.toString()} currentPage = $currentPage, totalPage = $totalPage, '
+        'totalRecord = $totalRecord, limit = $limit}';
   }
 }

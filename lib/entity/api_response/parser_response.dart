@@ -1,14 +1,14 @@
-import 'package:api_error_parser/api_error_parser.dart';
+import '../../api_error_parser.dart';
 
 abstract class ParserResponse<T, E> {
-  T get data;
+  T? get data;
 
   List<ParserMessageEntity<E>> get errors;
 }
 
 class ParserResponseEntity<T, E> extends ParserResponse<T, E> {
   @override
-  final T data;
+  final T? data;
   @override
   final List<ParserMessageEntity<E>> errors;
 
@@ -18,5 +18,6 @@ class ParserResponseEntity<T, E> extends ParserResponse<T, E> {
 class ParserResponseWithPaginationEntity<T, E> extends ParserResponseEntity<T, E> {
   final Pagination pagination;
 
-  ParserResponseWithPaginationEntity(T data, this.pagination, List<ParserMessageEntity<E>> errors) : super(data, errors);
+  ParserResponseWithPaginationEntity(T data, this.pagination, List<ParserMessageEntity<E>> errors)
+      : super(data, errors);
 }

@@ -8,5 +8,10 @@ class ErrorSourceEntity extends ErrorSource {
 
   ErrorSourceEntity(this.field);
 
-  ErrorSourceEntity.fromJson(Map<String, dynamic> data) : field = data['field'];
+  ErrorSourceEntity.fromJson(Map<String, dynamic> data) : field = data['field'] as String;
+
+  @override
+  String toString() {
+    return 'ErrorSourceEntity{field: $field}';
+  }
 }
