@@ -4,11 +4,13 @@ abstract class ErrorSource {
 
 class ErrorSourceEntity extends ErrorSource {
   @override
-  final String field;
+  String field = "";
 
   ErrorSourceEntity(this.field);
 
-  ErrorSourceEntity.fromJson(Map<String, dynamic> data) : field = data['field'] as String;
+  ErrorSourceEntity.fromJson(Map<String, dynamic> data) {
+    field = data['field'];
+  }
 
   @override
   String toString() {

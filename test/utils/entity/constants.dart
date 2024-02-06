@@ -10,6 +10,7 @@ class Message {
   static const String INVALID_LOGIN =
       "It seems that the login is wrong";
   static const String DEFAULT_403_MESSAGE = "Default 403 Message";
+  static const String EMAIL_LENGTH_MESSAGE = "email must be longer than 3";
 }
 
 class ErrorCode {
@@ -20,7 +21,7 @@ class ErrorCode {
   static const String INVALID_PASSWORD = "invalid_password";
   static const String INVALID_LOGIN = "invalid_login";
   static const String UNKNOWN = "unknown_code";
-  static const String MIN = "You value is so small";
+  static const String MIN = "MIN";
 }
 
 class TARGET {
@@ -31,4 +32,5 @@ class TARGET {
 class FIELD {
   static const String EMAIL = "email";
   static const String USER_PASSWORD = "userPassword";
+  static const String EMAIL_LENGTH = "data.email";
 }

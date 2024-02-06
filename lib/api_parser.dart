@@ -1,36 +1,31 @@
 library api_error_parser;
 
+import 'package:api_error_parser/adapter/error_message_adapter.dart';
 import 'package:api_error_parser/api_error_parser.dart';
 
 class ApiParser<E> {
   ApiParser({
+    required this.adapters,
     required this.errorMessages,
     required this.defaultErrorMessage,
-    required this.default403ErrorMessage,
     this.fieldErrorMessages = const {},
-  });
+  }) {
+    adapters.values.forEach((element) {
+      element.getMessage = getMessage;
+    });
+  }
 
   final Map<String, E> errorMessages;
   final E defaultErrorMessage;
-  final E default403ErrorMessage;
   final Map<String, Map<String, E>> fieldErrorMessages;
+  final Map<Type, ErrorMessageAdapter<E>> adapters;
 
-  ApiParserResponse<T, E> parse<T>(ApiResponse<T> response) {
-    return ApiParserResponse.create(getParserResponse(response));
+  ApiParserResponse<T, E> parse<T>(Type type, ApiResponse<T> response) {
+    return ApiParserResponse.create(getParserResponse(type, response));
   }
 
-  List<ParserMessageEntity<E>> getErrors(List<ErrorMessage> errors) {
-    return errors
-        .map(
-          (error) => ParserMessageEntity(
-        error.target,
-        error.source,
-        error.code,
-        title: getMessage(error),
-        meta: error.meta,
-      ),
-    )
-        .toList();
+  List<ParserMessageEntity<E>> getErrors(Type type, List<ErrorMessage> errors) {
+    return adapters[type]?.getErrors(errors) ?? [];
   }
 
   E getMessage(ErrorMessage error) {
@@ -46,7 +41,8 @@ class ApiParser<E> {
     }
   }
 
-  ParserResponse<T, E> getParserResponse<T>(ApiResponse<T>? response) {
+  ParserResponse<T, E> getParserResponse<T>(
+      Type type, ApiResponse<T>? response) {
     if (response == null) {
       return ParserResponseEntity(null, []);
     } else {
@@ -54,16 +50,17 @@ class ApiParser<E> {
         return ParserResponseWithPaginationEntity(
           response.data as T,
           (response as ApiResponsePagination).pagination,
-          getErrors(response.errors ?? []),
+          getErrors(type, response.errors ?? []),
         );
       } else {
-        return ParserResponseEntity(response.data, getErrors(response.errors ?? []));
+        return ParserResponseEntity(
+            response.data, getErrors(type, response.errors ?? []));
       }
     }
   }
 
   E getMessageFromCode(String errorCode) {
-    return errorCode == '403' ? default403ErrorMessage : errorMessages[errorCode] ?? defaultErrorMessage;
+    return errorMessages[errorCode] ?? defaultErrorMessage;
   }
 
   E getFieldMessageFromCode(String field, String errorCode) {

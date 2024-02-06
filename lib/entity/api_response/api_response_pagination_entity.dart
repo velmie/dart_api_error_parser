@@ -13,17 +13,20 @@ class ApiResponsePaginationEntity<T> extends ApiResponsePagination<T> {
   @override
   final PaginationEntity pagination;
   @override
-  final List<ErrorMessageEntity>? errors;
+  final List<ErrorMessage>? errors;
 
   ApiResponsePaginationEntity(this.data, this.pagination, this.errors);
 
-  factory ApiResponsePaginationEntity.fromJson(Map<String, dynamic> json, Function? fromJson) {
+  factory ApiResponsePaginationEntity.fromJson(
+      Map<String, dynamic> json, Function? fromJson,
+      {ErrorMessage Function(Map<String, dynamic> data) errorFromJson =
+          ErrorMessageEntity.fromJson}) {
     return ApiResponsePaginationEntity(
       (json['data'] != null && fromJson != null)
           ? (json['data'] as List).map((dynamic i) => fromJson(i) as T).toList()
           : null,
       PaginationEntity.fromJson(json['pagination'] as Map<String, dynamic>),
-      ApiResponse.errorsFromJson(json),
+      ApiResponse.errorsFromJson(json, errorFromJson),
     );
   }
 }
