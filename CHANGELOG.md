@@ -1,3 +1,3 @@
-## [0.0.5] - TODO: Add release date.
+## [0.1.0] - TODO: Add release date.
 
-added ability to register codes for field types
+updated to flutter 3+

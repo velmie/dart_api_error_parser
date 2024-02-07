@@ -1,0 +1,20 @@
+{
+  "status": 200,
+  "data": {
+    "accessToken": "eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDU1ODE0ODEsImZpcnN0TmFtZSI6IkRpbWEiLCJsYXN0TmFtZSI6Ik1pa2NoIiwicGFyZW50SWQiOiIiLCJyb2xlTmFtZSI6ImNsaWVudCIsInN1YiI6ImFjY2VzcyIsInVpZCI6ImVhYWI4ODI1LWVmZGUtNDBiMi05ZjAxLThmOTk1YmFkMWQ5NiIsInVzZXJuYW1lIjoiZWFhYjg4MjUtZWZkZS00MGIyLTlmMDEtOGY5OTViYWQxZDk2In0.ASYNLou2zt0rAj-enbh2xw0PPlQTekW5qnGYMb6dumDjpr9UwYVTOXuKO0i6LRN2-8AB02XLntmMAUWHFzcplmDDAeKieZ-14MfkJF-xAwOz5_PNytBQQoxPuEbpcGvIriNwssmu0KnlLH0rbn4TGUMeZGdr8xqQjqLbLhUpfj8J6gh1",
+    "refreshToken": "eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDgxNzE2ODEsImZpcnN0TmFtZSI6IkRpbWEiLCJsYXN0TmFtZSI6Ik1pa2NoIiwicGFyZW50SWQiOiIiLCJyb2xlTmFtZSI6ImNsaWVudCIsInN1YiI6InJlZnJlc2giLCJ1aWQiOiJlYWFiODgyNS1lZmRlLTQwYjItOWYwMS04Zjk5NWJhZDFkOTYiLCJ1c2VybmFtZSI6ImVhYWI4ODI1LWVmZGUtNDBiMi05ZjAxLThmOTk1YmFkMWQ5NiJ9.AMzPggAZNnh4MW1NkxQZiGWr4plzAjKNivNtsUPSMEuLw72vRJ5UUd0Ynjt-pmety0cHRknddEuJj_vUsOo-k70NANQMrQisYEOmHXYtd9ItwNPa0AhXqbH9kte94EIjqh-7aufJodB8BuFE-tneX4AULLXgdT_L2kP4i3TE4AOWaXPW",
+    "challengeName": null
+  },
+  "errors": [
+    {
+      "title": "email must be longer than 3",
+      "details": null,
+      "code": "MIN",
+      "source": "data.email",
+      "target": "field",
+      "meta": {
+        "min": "3"
+      }
+    }
+  ]
+}

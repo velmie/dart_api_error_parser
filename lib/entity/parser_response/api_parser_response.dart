@@ -1,7 +1,5 @@
 import 'package:api_error_parser/api_error_parser.dart';
 
-import '../api_response/parser_response.dart';
-
 abstract class ApiParserResponse<T, E> {
   static ApiParserResponse<T, String> error<T>(Exception error) {
     return ApiParserErrorResponse([
