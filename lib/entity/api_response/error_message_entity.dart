@@ -27,4 +27,20 @@ class ErrorMessageEntity extends ErrorMessage {
     return ErrorMessageEntity(data['code'], data['target'], data['message'],
         source: source);
   }
+
+  factory ErrorMessageEntity.fromMessage(String message) {
+    return ErrorMessageEntity(
+      "",
+      "",
+      message,
+    );
+  }
+
+  factory ErrorMessageEntity.empty() {
+    return ErrorMessageEntity(
+      "",
+      "",
+      "",
+    );
+  }
 }
