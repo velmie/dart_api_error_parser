@@ -16,7 +16,7 @@ class ParserResponseEntity<T, E> extends ParserResponse<T, E> {
 }
 
 class ParserResponseWithPaginationEntity<T, E> extends ParserResponseEntity<T, E> {
-  final Pagination pagination;
+  final Pagination? pagination;
 
   ParserResponseWithPaginationEntity(T data, this.pagination, List<ParserMessageEntity<E>> errors)
       : super(data, errors);

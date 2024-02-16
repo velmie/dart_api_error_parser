@@ -5,6 +5,7 @@
 A library for parsing responses from api and converting error codes into messages for the user.
 
 - [API response description](#api-response-description)
+- [Pagination](#pagination)
 - [Version](#version)
 - [How it works](#how-it-works)
 - [License](#license)
@@ -15,9 +16,7 @@ A library for parsing responses from api and converting error codes into message
 Each error from server should be in next format:
 
 - ***code***: a unique code of an error. Used to identify error from the dictionary.
-- ***target***: some sort of error scope
-- ***field*** - the error related to certain field
-- ***common*** - the error related to whole request
+- ***target***: some sort of error scope. One of the following options: `field` - the error related to certain field, `common` - the error related to whole request.
 - ***message (OPTIONAL)***: the error message for developers (use it only for debug purposes)
 - ***source (OPTIONAL)***: a container for additional data. Arbitrary structure: ( field: resource object attribute name. Required if target set to field. )
 
@@ -62,7 +61,7 @@ Example:
   ]
  }
 ```
-####Pagination
+# Pagination
 In server response should be pagination object in the next format:
 
 - ***currentPage***: current returned page
@@ -90,21 +89,21 @@ Example:
 }
 ```
 # Version
-0.04
+0.2.0
 
 # How it works
 The library provides ready-made interfaces for server responses to which the object passed to the parmer must correspond.
 
 To initialize the ErrorParser, you must pass to the constructor:
-  errorMessages: 
-- `Map<String, E>` - the key is the error code and the value of the displayed message
+- `errorMessages`: Map<String, E> - the key is the error code and the value of the displayed message
 - `defaultErrorMessage`: E - message of unknown errors
-
+- `adapters`: Map<Type, ErrorMessageAdapter<E>> - List of adapters for converting non-standard messages. `Type` - Type of object that will be converted in the adapter. `ErrorMessageAdapter<E>` - Implementation of an abstract class `ErrorMessageAdapter`.
+- `fieldErrorMessages`: Map<String, Map<String, E>> - The key is the field name. The value is a table similar to `errorMessages`.
 
 **Api parser description:**
-- `parse(ApiParserResponse<T> response)` - returns `ApiParserResponse` in the states: success , empty or error
+- `parse(Type type, ApiParserResponse<T> response)` - returns `ApiParserResponse` in the states: success , empty or error
 - `getParserResponse(ApiResponse<T> response)` - parses the server response object and returns the processed result
-- `getErrors(List<ErrorMessage> errors)` - returns a list of processed errors
+- `getErrors(Type type, List<ErrorMessage> errors)` - returns a list of processed errors
 - `getMessageFromCode(String errorCode)` - returns the message associated with this error code
 - `getMessage(ErrorMessage errorMessage)` - returns the processed error
 - `getFirstMessage(List<ErrorMessage> errors)` - returns the first processed error from the list
@@ -114,9 +113,21 @@ Dart
 -------------
 
 ```Dart
-final apiParser = ApiParser({
-                  CODE.ERROR_CODE: Message.ERROR_MESSAGE,
-                }, Message.DEFAULT);
+final apiParser = ApiParser(
+  adapters: {
+    ErrorMessageEntity: SimpleErrorMessageAdapter(),
+  },
+  errorMessages: {
+    ErrorCode.INVALID_LOGIN: Message.INVALID_LOGIN
+  },
+  fieldErrorMessages: {
+    FIELD.EMAIL: {
+      ErrorCode.INVALID_PASSWORD_CONFIRMATION: Message.PASSWORD_DO_NOT_MATCH,
+    },
+    FIELD.EMAIL_LENGTH: {ErrorCode.MIN: Message.EMAIL_LENGTH_MESSAGE}
+  },
+  defaultErrorMessage: Message.DEFAULT,
+);
                
 final ParserResponse<UserEntity> parserResponse = apiParser.getParserResponse(serverResponse);
                              

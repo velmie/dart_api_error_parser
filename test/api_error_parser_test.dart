@@ -88,6 +88,39 @@ void main() {
     }
   });
 
+  test("parsing response of dynamic types", () {
+    ApiResponseEntity responseApiEmpty =
+        ApiResponseEntity<DataAlternateEntity>.fromJson(null,
+            DataAlternateEntity.fromJson, ErrorMessageAlternateEntity.fromJson);
+    ApiResponseEntity responseApiMessage =
+        ApiResponseEntity<DataAlternateEntity>.fromJson("decode",
+            DataAlternateEntity.fromJson, ErrorMessageAlternateEntity.fromJson);
+
+    ApiResponsePaginationEntity responseApiPaginationEmpty =
+        ApiResponsePaginationEntity<DataAlternateEntity>.fromJson(null,
+            DataAlternateEntity.fromJson, ErrorMessageAlternateEntity.fromJson);
+    ApiResponsePaginationEntity responseApiPaginationMessage =
+        ApiResponsePaginationEntity<DataAlternateEntity>.fromJson("decode",
+            DataAlternateEntity.fromJson, ErrorMessageAlternateEntity.fromJson);
+
+    expect(
+      parser.getFirstMessage(responseApiEmpty.errors!),
+      equals(Message.DEFAULT),
+    );
+    expect(
+      parser.getFirstMessage(responseApiMessage.errors!),
+      equals(Message.DEFAULT),
+    );
+    expect(
+      parser.getFirstMessage(responseApiPaginationEmpty.errors!),
+      equals(Message.DEFAULT),
+    );
+    expect(
+      parser.getFirstMessage(responseApiPaginationMessage.errors!),
+      equals(Message.DEFAULT),
+    );
+  });
+
   test("error message", () {
     final errors = response.errors;
     if (errors != null) {
