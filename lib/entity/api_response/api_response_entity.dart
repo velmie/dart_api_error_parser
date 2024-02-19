@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:api_error_parser/entity/api_response/error_message_entity.dart';
 
 abstract class ApiResponse<T> {
@@ -30,24 +28,29 @@ class ApiResponseEntity<T> extends ApiResponse<T> {
   factory ApiResponseEntity.fromJson(dynamic response, Function? fromJson,
       [ErrorMessage Function(Map<String, dynamic> data) errorFromJson =
           ErrorMessageEntity.fromJson]) {
-      if (response is Map<String, dynamic>) {
-        return ApiResponseEntity(
-            (response['data'] != null && fromJson != null)
-                ? fromJson(response['data']) as T?
-                : null,
-            ApiResponse.errorsFromJson(response, errorFromJson));
-      } else if (response?.data is Map<String, dynamic>) {
-        final json = response.data as Map<String, dynamic>;
-        return ApiResponseEntity(
-            (json['data'] != null && fromJson != null)
-                ? fromJson(json['data']) as T?
-                : null,
-            ApiResponse.errorsFromJson(json, errorFromJson));
-      } else {
-        return ApiResponseEntity(
-            response as T?,
-            ApiResponse.errorsFromJson(
-                response as Map<String, dynamic>, errorFromJson));
-      }
+    if (response is String) {
+  return ApiResponseEntity(
+  null, [ErrorMessageEntity.fromMessage(response)]);
+  } else if (response == null) {
+  return ApiResponseEntity(null, [ErrorMessageEntity.empty()]);
+  } else if (response is Map<String, dynamic>) {
+      return ApiResponseEntity(
+          (response['data'] != null && fromJson != null)
+              ? fromJson(response['data']) as T?
+              : null,
+          ApiResponse.errorsFromJson(response, errorFromJson));
+    } else if (response.data is Map<String, dynamic>) {
+      final json = response.data as Map<String, dynamic>;
+      return ApiResponseEntity(
+          (json['data'] != null && fromJson != null)
+              ? fromJson(json['data']) as T?
+              : null,
+          ApiResponse.errorsFromJson(json, errorFromJson));
+    } else {
+      return ApiResponseEntity(
+          response as T?,
+          ApiResponse.errorsFromJson(
+              response as Map<String, dynamic>, errorFromJson));
+    }
   }
 }
