@@ -1,3 +1,4 @@
-## [0.1.0] - TODO: Add release date.
+## [0.2.0] - TODO: Add release date.
 
-updated to flutter 3+
+- Ability to use adapters for different response structures
+- Handling dynamic response as json, null, ''
