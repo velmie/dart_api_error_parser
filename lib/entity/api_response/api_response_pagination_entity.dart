@@ -27,7 +27,10 @@ class ApiResponsePaginationEntity<T> extends ApiResponsePagination<T> {
                 .map((dynamic i) => fromJson(i) as T)
                 .toList()
             : null,
-        PaginationEntity.fromJson(json['pagination'] as Map<String, dynamic>),
+        json['pagination'] != null
+            ? PaginationEntity.fromJson(
+                json['pagination'] as Map<String, dynamic>)
+            : null,
         ApiResponse.errorsFromJson(json, errorFromJson),
       );
     } else if (json is String) {
