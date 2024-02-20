@@ -1,4 +1,3 @@
-## [0.2.0] - TODO: Add release date.
+## [0.2.1] - TODO: Add release date.
 
-- Ability to use adapters for different response structures
-- Handling dynamic response as json, null, ''
+- Fixed error parsing optional fields
