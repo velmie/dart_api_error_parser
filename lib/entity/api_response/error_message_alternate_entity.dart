@@ -17,6 +17,11 @@ class ErrorMessageAlternateEntity extends ErrorMessage {
       this.title, this.details, this.code, this.target, this.source, this.meta);
 
   static ErrorMessageAlternateEntity fromJson(Map<String, dynamic> json) =>
-      ErrorMessageAlternateEntity(json['title'], json['details'], json['code'],
-          json['target'], ErrorSourceEntity(json['source']), json['meta']);
+      ErrorMessageAlternateEntity(
+          json['title'],
+          json['details'],
+          json['code'],
+          json['target'],
+          json['source'] != null ? ErrorSourceEntity(json['source']) : null,
+          json['meta']);
 }
