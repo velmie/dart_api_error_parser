@@ -20,12 +20,16 @@ class ApiParser<E> {
   final Map<String, Map<String, E>> fieldErrorMessages;
   final Map<Type, ErrorMessageAdapter<E>> adapters;
 
-  ApiParserResponse<T, E> parse<T>(Type type, ApiResponse<T> response) {
-    return ApiParserResponse.create(getParserResponse(type, response));
+  ApiParserResponse<T, E> parse<T>(ApiResponse<T> response) {
+    return ApiParserResponse.create(getParserResponse(response));
   }
 
-  List<ParserMessageEntity<E>> getErrors(Type type, List<ErrorMessage> errors) {
-    return adapters[type]?.getErrors(errors) ?? [];
+  List<ParserMessageEntity<E>> getErrors(List<ErrorMessage> errors) {
+    if (errors.isEmpty) {
+      return [];
+    } else {
+      return adapters[errors.first.runtimeType]?.getErrors(errors) ?? [];
+    }
   }
 
   E getMessage(ErrorMessage error) {
@@ -41,8 +45,7 @@ class ApiParser<E> {
     }
   }
 
-  ParserResponse<T, E> getParserResponse<T>(
-      Type type, ApiResponse<T>? response) {
+  ParserResponse<T, E> getParserResponse<T>(ApiResponse<T>? response) {
     if (response == null) {
       return ParserResponseEntity(null, []);
     } else {
@@ -50,11 +53,11 @@ class ApiParser<E> {
         return ParserResponseWithPaginationEntity(
           response.data as T,
           (response as ApiResponsePagination).pagination,
-          getErrors(type, response.errors ?? []),
+          getErrors(response.errors ?? []),
         );
       } else {
         return ParserResponseEntity(
-            response.data, getErrors(type, response.errors ?? []));
+            response.data, getErrors(response.errors ?? []));
       }
     }
   }

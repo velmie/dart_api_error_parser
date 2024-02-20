@@ -89,7 +89,7 @@ Example:
 }
 ```
 # Version
-0.2.0
+0.2.2
 
 # How it works
 The library provides ready-made interfaces for server responses to which the object passed to the parmer must correspond.
@@ -101,9 +101,9 @@ To initialize the ErrorParser, you must pass to the constructor:
 - `fieldErrorMessages`: Map<String, Map<String, E>> - The key is the field name. The value is a table similar to `errorMessages`.
 
 **Api parser description:**
-- `parse(Type type, ApiParserResponse<T> response)` - returns `ApiParserResponse` in the states: success , empty or error
+- `parse(ApiParserResponse<T> response)` - returns `ApiParserResponse` in the states: success , empty or error
 - `getParserResponse(ApiResponse<T> response)` - parses the server response object and returns the processed result
-- `getErrors(Type type, List<ErrorMessage> errors)` - returns a list of processed errors
+- `getErrors(List<ErrorMessage> errors)` - returns a list of processed errors
 - `getMessageFromCode(String errorCode)` - returns the message associated with this error code
 - `getMessage(ErrorMessage errorMessage)` - returns the processed error
 - `getFirstMessage(List<ErrorMessage> errors)` - returns the first processed error from the list

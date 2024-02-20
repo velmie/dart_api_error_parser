@@ -140,7 +140,7 @@ void main() {
     final errors = response.errors;
 
     if (errors != null) {
-      final parserErrors = parser.getErrors(ErrorMessageEntity, errors);
+      final parserErrors = parser.getErrors(errors);
       expect(errors[0].code, parserErrors[0].code);
       expect(errors[1].code, parserErrors[1].code);
       expect(errors[2].code, parserErrors[2].code);
@@ -169,7 +169,7 @@ void main() {
 
     if (errorsAlternate != null) {
       final parserErrors =
-          parser.getErrors(ErrorMessageAlternateEntity, errorsAlternate);
+          parser.getErrors(errorsAlternate);
       expect(errorsAlternate[0].code, parserErrors[0].code);
 
       expect(parserErrors[0].title, Message.EMAIL_LENGTH_MESSAGE);
@@ -183,7 +183,7 @@ void main() {
   test("parsing", () async {
     response = await beforeTest();
     final parserResponse =
-        parser.getParserResponse(ErrorMessageEntity, response);
+        parser.getParserResponse(response);
     expect(response.data, parserResponse.data);
 
     final errors = response.errors;
@@ -213,7 +213,7 @@ void main() {
 
   test("api parser response", () async {
     response = await beforeTest();
-    final errorResponse = parser.parse(ErrorMessageEntity, response);
+    final errorResponse = parser.parse(response);
     expect(errorResponse is ApiParserErrorResponse, true);
 
     final errors = response.errors;
@@ -244,7 +244,7 @@ void main() {
 
     final emptyResponse = ApiResponseEntity(null, []);
     expect(
-        parser.parse(ErrorMessageEntity, emptyResponse)
+        parser.parse(emptyResponse)
             is ApiParserEmptyResponse,
         true);
 
@@ -253,7 +253,7 @@ void main() {
       [],
     );
     expect(
-      parser.parse(ErrorMessageEntity, successResponse)
+      parser.parse(successResponse)
           is ApiParserSuccessResponse,
       true,
     );
