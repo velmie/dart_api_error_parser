@@ -48,8 +48,7 @@
       "target": "field",
       "source": {
         "field": "login"
-      },
-      "message": "Hi Lesha, it seems that the login is wrong"
+      }
     }
   ]
 }

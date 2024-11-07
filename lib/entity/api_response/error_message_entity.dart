@@ -15,7 +15,7 @@ class ErrorMessageEntity extends ErrorMessage {
   final String target;
   @override
   final ErrorSourceEntity? source;
-  final String message;
+  final String? message;
 
   ErrorMessageEntity(this.code, this.target, this.message, {this.source});
 
