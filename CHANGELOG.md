@@ -1,3 +1,3 @@
-## [0.2.2] - TODO: Add release date.
+## [0.2.3] - TODO: Add release date.
 
-- Removing a function type parameter from 'parse' parameters
+- The message field has been made optional
