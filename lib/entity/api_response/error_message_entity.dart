@@ -22,7 +22,11 @@ class ErrorMessageEntity extends ErrorMessage {
   factory ErrorMessageEntity.fromJson(Map<String, dynamic> data) {
     var source = data['source'];
     if (source != null) {
-      source = ErrorSourceEntity.fromJson(source);
+      if (source is String) {
+        source = ErrorSourceEntity(source);
+      } else {
+        source = ErrorSourceEntity.fromJson(source);
+      }
     }
     return ErrorMessageEntity(data['code'], data['target'], data['message'],
         source: source);

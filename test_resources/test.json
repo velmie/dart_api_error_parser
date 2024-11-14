@@ -23,9 +23,7 @@
       "code": "unknown_code",
       "target": "common",
       "message": "Oh no! Something went wrong",
-      "source": {
-        "field": "userPassword"
-      }
+      "source": "userPassword"
     },
     {
       "code": "invalid_password_confirmation",
