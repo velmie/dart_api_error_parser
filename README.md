@@ -44,9 +44,7 @@ Example:
     {
       "code": "invalid_punctuation",
       "target": "field",
-      "source": {
-        "field": "userPassword"
-      },
+      "source": "userPassword",
       "message": "Hi Vova, it seems that the password provided is missing a punctuation character"
     },
     {

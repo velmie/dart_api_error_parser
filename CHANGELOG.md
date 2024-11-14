@@ -1,3 +1,3 @@
-## [0.2.3] - TODO: Add release date.
+## [0.2.4] - TODO: Add release date.
 
-- The message field has been made optional
+- Source field can be either an object or a regular String
