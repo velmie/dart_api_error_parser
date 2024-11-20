@@ -1,3 +1,4 @@
-## [0.2.4] - TODO: Add release date.
+## [0.2.5] - TODO: Add release date.
 
-- Source field can be either an object or a regular String
+- Added handling of situations when errors do not match the format for responses with pagination
+  For example: 403 Forbiden
