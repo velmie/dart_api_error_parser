@@ -27,9 +27,7 @@ ApiParser<String> parser = ApiParser(
     FIELD.EMAIL: {
       ErrorCode.INVALID_PASSWORD_CONFIRMATION: Message.PASSWORD_DO_NOT_MATCH,
     },
-    FIELD.USER_PASSWORD: {
-      ErrorCode.INVALID_PUNCTUATION: Message.PUNCTUATION_ERROR
-    },
+    FIELD.USER_PASSWORD: {ErrorCode.INVALID_PUNCTUATION: Message.PUNCTUATION_ERROR},
     FIELD.EMAIL_LENGTH: {ErrorCode.MIN: Message.EMAIL_LENGTH_MESSAGE}
   },
   defaultErrorMessage: Message.DEFAULT,
@@ -53,8 +51,8 @@ Future<ApiResponseEntity<DataAlternateEntity>> beforeTestAlternate() async {
   final file = File('test_resources/test_alternate.json');
   var jsonData = await file.readAsString();
   var decode = json.decode(jsonData);
-  return ApiResponseEntity<DataAlternateEntity>.fromJson(decode,
-      DataAlternateEntity.fromJson, ErrorMessageAlternateEntity.fromJson);
+  return ApiResponseEntity<DataAlternateEntity>.fromJson(
+      decode, DataAlternateEntity.fromJson, ErrorMessageAlternateEntity.fromJson);
 }
 
 void main() {
@@ -89,19 +87,17 @@ void main() {
   });
 
   test("parsing response of dynamic types", () {
-    ApiResponseEntity responseApiEmpty =
-        ApiResponseEntity<DataAlternateEntity>.fromJson(null,
-            DataAlternateEntity.fromJson, ErrorMessageAlternateEntity.fromJson);
-    ApiResponseEntity responseApiMessage =
-        ApiResponseEntity<DataAlternateEntity>.fromJson("decode",
-            DataAlternateEntity.fromJson, ErrorMessageAlternateEntity.fromJson);
+    ApiResponseEntity responseApiEmpty = ApiResponseEntity<DataAlternateEntity>.fromJson(
+        null, DataAlternateEntity.fromJson, ErrorMessageAlternateEntity.fromJson);
+    ApiResponseEntity responseApiMessage = ApiResponseEntity<DataAlternateEntity>.fromJson(
+        "decode", DataAlternateEntity.fromJson, ErrorMessageAlternateEntity.fromJson);
 
-    ApiResponsePaginationEntity responseApiPaginationEmpty =
-        ApiResponsePaginationEntity<DataAlternateEntity>.fromJson(null,
-            DataAlternateEntity.fromJson, ErrorMessageAlternateEntity.fromJson);
+    ApiResponsePaginationEntity responseApiPaginationEmpty = ApiResponsePaginationEntity<DataAlternateEntity>.fromJson(
+        null, DataAlternateEntity.fromJson,
+        errorFromJson: ErrorMessageAlternateEntity.fromJson);
     ApiResponsePaginationEntity responseApiPaginationMessage =
-        ApiResponsePaginationEntity<DataAlternateEntity>.fromJson("decode",
-            DataAlternateEntity.fromJson, ErrorMessageAlternateEntity.fromJson);
+        ApiResponsePaginationEntity<DataAlternateEntity>.fromJson("decode", DataAlternateEntity.fromJson,
+            errorFromJson: ErrorMessageAlternateEntity.fromJson);
 
     expect(
       parser.getFirstMessage(responseApiEmpty.errors!),
@@ -168,8 +164,7 @@ void main() {
     final errorsAlternate = responseAlternate.errors;
 
     if (errorsAlternate != null) {
-      final parserErrors =
-          parser.getErrors(errorsAlternate);
+      final parserErrors = parser.getErrors(errorsAlternate);
       expect(errorsAlternate[0].code, parserErrors[0].code);
 
       expect(parserErrors[0].title, Message.EMAIL_LENGTH_MESSAGE);
@@ -182,8 +177,7 @@ void main() {
 
   test("parsing", () async {
     response = await beforeTest();
-    final parserResponse =
-        parser.getParserResponse(response);
+    final parserResponse = parser.getParserResponse(response);
     expect(response.data, parserResponse.data);
 
     final errors = response.errors;
@@ -243,18 +237,14 @@ void main() {
     expect(parserErrors[5].source != null, true);
 
     final emptyResponse = ApiResponseEntity(null, []);
-    expect(
-        parser.parse(emptyResponse)
-            is ApiParserEmptyResponse,
-        true);
+    expect(parser.parse(emptyResponse) is ApiParserEmptyResponse, true);
 
     final successResponse = ApiResponseEntity<DataEntity>(
       response.data,
       [],
     );
     expect(
-      parser.parse(successResponse)
-          is ApiParserSuccessResponse,
+      parser.parse(successResponse) is ApiParserSuccessResponse,
       true,
     );
     expect(successResponse.data != null, true);

@@ -17,9 +17,9 @@ class ApiResponsePaginationEntity<T> extends ApiResponsePagination<T> {
 
   ApiResponsePaginationEntity(this.data, this.pagination, this.errors);
 
-  factory ApiResponsePaginationEntity.fromJson(dynamic json, Function? fromJson,
-      [ErrorMessage Function(Map<String, dynamic> data) errorFromJson =
-          ErrorMessageEntity.fromJson]) {
+  factory ApiResponsePaginationEntity.fromJson(dynamic json, Function? fromJson, {String? statusMessage,
+    ErrorMessage Function(Map<String, dynamic> data) errorFromJson =
+        ErrorMessageEntity.fromJson}) {
     if (json is Map<String, dynamic>) {
       return ApiResponsePaginationEntity(
         (json['data'] != null && fromJson != null)
@@ -37,8 +37,13 @@ class ApiResponsePaginationEntity<T> extends ApiResponsePagination<T> {
       return ApiResponsePaginationEntity(
           null, null, [ErrorMessageEntity.fromMessage(json)]);
     } else {
-      return ApiResponsePaginationEntity(
-          null, null, [ErrorMessageEntity.empty()]);
+      if (statusMessage != null) {
+        return ApiResponsePaginationEntity(
+            null, null, [ErrorMessageEntity.fromMessage(statusMessage)]);
+      } else {
+        return ApiResponsePaginationEntity(
+            null, null, [ErrorMessageEntity.empty()]);
+      }
     }
   }
 }
