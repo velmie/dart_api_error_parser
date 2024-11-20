@@ -49,7 +49,7 @@ class ApiParser<E> {
     if (response == null) {
       return ParserResponseEntity(null, []);
     } else {
-      if (response is ApiResponsePagination) {
+      if (response is ApiResponsePagination && response.errors?.isEmpty == true ) {
         return ParserResponseWithPaginationEntity(
           response.data as T,
           (response as ApiResponsePagination).pagination,
